@@ -5,8 +5,6 @@ import { readFile } from "fs/promises";
 const input = await readFile(__dirname + "/input.txt", "utf8");
 const matrix = input.split(/\r?\n/).map((line) => line.split(/ +/).map(Number));
 
-let safe = 0;
-
 function isSafe(numbers: number[]): boolean {
     const increasing = numbers[0] < numbers[1];
     const pairs = numbers
@@ -25,30 +23,17 @@ function isSafe(numbers: number[]): boolean {
 }
 
 // Part 1
-for (const nums of matrix) {
-    if (isSafe(nums)) {
-        safe++;
-    }
-}
+const exactSafe = matrix.filter(isSafe).length;
 
-console.log("(Exact) Safe levels: " + safe);
+console.log("(Exact) Safe levels: ", exactSafe);
 
 // Part 2
-safe = 0;
-
-for (const nums of matrix) {
-    if (isSafe(nums)) {
-        safe++;
-        continue;
-    }
-
+const dampenedSafe = matrix.filter((nums) => {
     for (let i = 0; i < nums.length; i++) {
         const numsWithRemoved = nums.slice(0, i).concat(nums.slice(i + 1));
-        if (isSafe(numsWithRemoved)) {
-            safe++;
-            break;
-        }
-    }
-}
 
-console.log("(Dampened) Safe levels: " + safe);
+        if (isSafe(numsWithRemoved)) return true;
+    }
+}).length;
+
+console.log("(Dampened) Safe levels: " + dampenedSafe);
