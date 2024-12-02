@@ -3,39 +3,22 @@ import { readFile } from "fs/promises";
 // Part 1
 
 const input = await readFile(__dirname + "/input.txt", "utf8");
-const lines = input.split(/\r?\n/);
+const matrix = input.split(/\r?\n/).map((line) => line.split(/ +/).map(Number));
 
-let left: number[] = [];
-let right: number[] = [];
+let left = matrix.map(([l, _]) => l).sort((a, b) => a - b);
+let right = matrix.map(([_, r]) => r).sort((a, b) => a - b);
 
-for (const line of lines) {
-    const [l, r] = line.split(/ +/).map(Number);
-    left.push(l);
-    right.push(r);
-}
-
-left = left.sort((a, b) => a - b);
-right = right.sort((a, b) => a - b);
-
-const distances: number[] = [];
-
-for (let i = 0; i < left.length; i++) {
-    const min = Math.min(left[i], right[i]);
-    const max = Math.max(left[i], right[i]);
-    distances.push(max - min);
-}
-
+const distances: number[] = left.map((_, i) => Math.abs(left[i] - right[i]));
 const totalDistance = distances.reduce((acc, curr) => acc + curr, 0);
 
 console.log("Total distance: " + totalDistance + " !!!");
 
 // Part 2
 
-let similarityAccum = 0;
+const similarity = left.reduce(
+    (acc, curr) =>
+        acc + curr * right.filter((rightN) => rightN === curr).length,
+    0,
+);
 
-for (const leftN of left) {
-    const appearsCount = right.filter((rightN) => rightN === leftN).length;
-    similarityAccum += leftN * appearsCount;
-}
-
-console.log("Similarity score: " + similarityAccum);
+console.log("Similarity score: " + similarity);
