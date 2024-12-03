@@ -25,7 +25,7 @@ function isSafe(numbers: number[]): boolean {
 // Part 1
 const exactSafe = matrix.filter(isSafe).length;
 
-console.log("(Exact) Safe levels: ", exactSafe);
+console.log("(Exact) Safe levels:", exactSafe);
 
 // Part 2
 const dampenedSafe = matrix.filter((nums) => {
@@ -36,4 +36,4 @@ const dampenedSafe = matrix.filter((nums) => {
     }
 }).length;
 
-console.log("(Dampened) Safe levels: " + dampenedSafe);
+console.log("(Dampened) Safe levels:", dampenedSafe);

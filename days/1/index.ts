@@ -11,7 +11,7 @@ let right = matrix.map(([_, r]) => r).sort((a, b) => a - b);
 const distances: number[] = left.map((_, i) => Math.abs(left[i] - right[i]));
 const totalDistance = distances.reduce((acc, curr) => acc + curr, 0);
 
-console.log("Total distance: " + totalDistance + " !!!");
+console.log("Total distance:", totalDistance, "!!!");
 
 // Part 2
 
@@ -21,4 +21,4 @@ const similarity = left.reduce(
     0,
 );
 
-console.log("Similarity score: " + similarity);
+console.log("Similarity score:", similarity);
